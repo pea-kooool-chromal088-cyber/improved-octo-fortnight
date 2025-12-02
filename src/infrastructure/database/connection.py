@@ -44,6 +44,27 @@ class DatabaseConnection:
             )
         """)
         
+        # Create events table
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS events (
+                event_id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                date DATETIME NOT NULL,
+                created_by TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        # Create registrations table
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS registrations (
+                user_id TEXT NOT NULL,
+                event_id TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, event_id)
+            )
+        """)
+        
         conn.commit()
     
     def close(self) -> None:
